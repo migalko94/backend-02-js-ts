@@ -414,13 +414,13 @@ const collection = [
     flag: "🇲🇴",
   },
 ];
-
 const normalize = (arr) => {
-  return arr.map((el) => {
+  return arr.reduce((acc, el) => {
     let { id, ...rest } = el;
-    el = { [id]: { ...rest } };
-    return el;
-  });
+
+    acc[id] = { ...rest };
+    return acc;
+  }, {});
 };
 
 const result = normalize(collection);
@@ -435,13 +435,13 @@ const compact = (arg) => {
     ? [...arg.filter((el) => Boolean(el))]
     : typeof arg === "object" && arg !== null
     ? (() => {
-        let obj = {};
+        let newObj = {};
         for (const key in arg) {
           if (arg[key]) {
-            obj[key] = arg[key];
+            newObj[key] = arg[key];
           }
         }
-        return obj;
+        return newObj;
       })()
     : arg;
 };
